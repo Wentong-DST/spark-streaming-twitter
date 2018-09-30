@@ -45,24 +45,28 @@ This application uses a number of open source technologies to work properly:
 # Kafka Commands
 #### Starts Zookeeper Server:
 ```sh
-$ bin/zookeeper-server-start.sh config/zookeeper.properties
+$ ??? bin/zookeeper-server-start.sh config/zookeeper.properties
+$ zookeeper-server-start /usr/local/Cellar/kafka/2.0.0/libexec/config/zookeeper.properties
 ```
 #### Starts Kafka Server:
 ```sh
-$ nohup ~/kafka/bin/kafka-server-start.sh ~/kafka/config/server.properties > ~/kafka/kafka.log 2>&1 &
+$ nohup kafka-server-start /usr/local/Cellar/kafka/2.0.0/libexec/config/server.properties &
 ```
-#### Create Topic ( t ):
+#### Create Topic:
 ```sh
-$ bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic socialcops
+$ kafka-topics --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic socialcops
+```
+#### List Topic:
+```sh
+$ kafka-topics --list --zookeeper localhost:2181
 ```
 #### Start Producer:
 ```sh
 $ python tweepy_kafka_producer.py
 ```
 #### Start Consumer ( another terminal ):
-From inside Spark directory -
 ```sh
-$ bin/spark-submit --master local[3] --jars external/kafka-assembly/target/scala-2.10/spark-streaming-kafka-assembly-1.5.0.jar SocialCops_Task_SoftwareChallenge/twitter_stream.py localhost:2181 socialcops
+$ spark-submit --master local[3] --jars /usr/local/Cellar/apache-spark/2.3.1/libexec/jars/spark-streaming-kafka-0-8-assembly_2.11-2.3.1.jar ./twitter_stream.py localhost:2181 socialcops
 
 ```
 #### Analyse Intent and Topic ( saves to tweet_task_intent.csv )
