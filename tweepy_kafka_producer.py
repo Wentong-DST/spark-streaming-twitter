@@ -29,19 +29,19 @@ class listener(StreamListener):
         try:
             # 1st parameter is the kafka topic
             producer.send_messages("socialcops", str(data))
-            print 'Sent to producer'           
+            print 'Sent to producer'
         except Exception as e:
             print e
     # When error
     def on_error(self, status):
-        print status
+        print 'Encounter error', status
 
 # Create a stream of data
-twitterStream = Stream(auth,listener())
+twitterStream = Stream(auth, listener())
 
 if __name__ == "__main__":
     
     # Create producer and set filters on stream
     kafka = KafkaClient("localhost:9092")
     producer = SimpleProducer(kafka)
-    twitterStream.filter(languages = ['en'], track=['the','i','to','an','and','is','e','a','u','o'])
+    twitterStream.filter(languages=['en'], track=['the','i','to','an','and','is','e','a','u','o'])
